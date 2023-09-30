@@ -49,6 +49,31 @@ public:
 		}
 		return curr->elem;
 	}
+
+	//uses '@' with num and pos operation
+	void addAt(int num, int pos){
+        if(pos == 1){
+            addHead(num);
+        }else if(pos == size+1){
+            add(num);
+        }else if(pos > size+1 || pos <= 0){
+			cout << "Invalid position" << endl;
+			return;
+		}else{
+			node* n = (node*) calloc( 1, sizeof(node) );
+			n->elem = num;
+            node* curr = head;
+			int ctr = 1;
+			while(ctr < pos-1){
+				curr = curr->next;
+				ctr++;
+			}
+            n->next = curr->next;
+            curr->next = n;
+			size++;
+        }
+	}
+
 	
 	//uses 'r' as operation
 	int remove(int num) {

@@ -6,4 +6,5 @@ class List {
 	virtual void print() = 0;
 	virtual int removeAt(int num) = 0;
 	virtual int removeAll(int num) = 0;
+	virtual void addAt(int num, int pos) = 0;
 };

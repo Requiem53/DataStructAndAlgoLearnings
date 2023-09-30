@@ -28,6 +28,10 @@ int main() {
                 cin >> num;
                 cout << "Removed " << list->removeAll(num) << " element/s" << endl;
 				break;
+			case '@':
+                cin >> num >> pos;
+                list->addAt(num, pos);
+				break;
 		    case 'p':
 		    	list->print();
 		    	break;
