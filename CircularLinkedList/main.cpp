@@ -2,7 +2,7 @@
 // Go to linkedlist.h's remove method
 
 #include <iostream>
-#include "linkedlist.h"
+#include "circularlinkedlist.h"
 
 int main() {
 	List* list = new LinkedList();
@@ -41,4 +41,5 @@ int main() {
 		}
 	} while (op != 'x');
     return 0;
+
 }

@@ -16,7 +16,6 @@ public:
 			head = n;
 			tail = n;
 		} else {
-            n->next = head;
             head = n;
 		}
 		size++;
