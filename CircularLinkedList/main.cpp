@@ -5,7 +5,7 @@
 #include "circularlinkedlist.h"
 
 int main() {
-	List* list = new LinkedList();
+	List* list = new CircularLinkedList();
     int input, pos, num;
     char op;
     do {

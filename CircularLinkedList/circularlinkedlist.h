@@ -3,7 +3,7 @@
 #include "node.h"
 using namespace std;
 
-class LinkedList : public List {
+class CircularLinkedList : public List {
 	node *head, *tail;
 	int size;
 	
