@@ -72,20 +72,90 @@ public:
 					journey++;
 				}
 			}
-
 			n->next = curr->next;
 			curr->next = n;	
+			n->prev = curr;
+			n->next->prev = n;
 			size++;
 		}
 		return journey;
 	}
 
 	int removeAt(int pos){
-		return 0;
+		int journey = 0;
+		int removed = 0;
+
+		if(pos == 1){
+			removed = head->elem;
+			removeFirst();
+		}else if(pos == size){
+			removed = tail->elem;
+			removeLast();
+		}else{
+			node* curr;
+			if(pos <= size-pos){
+				curr = head;
+				int ctr = 1;
+				while(ctr < pos){
+					curr = curr->next;
+					ctr++;
+					journey++;
+				}
+			}else{
+				curr = tail;
+				int ctr = size;
+				while(ctr >= pos+1){
+					curr = curr->prev;
+					ctr--;
+					journey++;
+				}
+			}
+			removed = curr->elem;
+			curr->prev->next = curr->next;
+			curr->next->prev = curr->prev;
+			// free(curr);
+			curr = nullptr;
+			if(curr)cout << "Curr is sstill not null " << endl;
+			size--;
+		}
+		
+		return removed;
 	}
 
 	int removeAll(int num){
-		return 0;
+		int counter = 0;
+		node* curr = head;
+		if(size == 0){
+			return 0;
+		}
+
+		while(curr){
+			if(curr->elem == num){
+				if(curr == head){
+					head = head->next;
+					if(head){
+						head->prev = nullptr;
+						curr = head;
+					}else{
+						tail = nullptr;
+						curr = nullptr;
+					}
+				}else{
+					curr->prev->next = curr->next;
+					if(curr == tail){
+						tail = curr->prev;
+					}
+					curr = nullptr;
+					curr = curr->next;
+					
+				}
+				size--;
+				counter++;
+			}else{
+				curr = curr->next;
+			}
+		}
+		return counter;
 	}
 	
 	void removeFirst() {
@@ -94,10 +164,10 @@ public:
 		}
 		head = head->next;
 		if (head) {	
-			free(head->prev);
+			// free(head->prev);
 			head->prev = nullptr;
 		} else {
-			free(tail);
+			// free(tail);
 			tail = nullptr;
 		}
 		size--;
@@ -109,10 +179,10 @@ public:
 		}
 		tail = tail->prev;
 		if (tail) {	
-			free(tail->next);
+			// free(tail->next);
 			tail->next = nullptr;
 		} else {
-			free(head);
+			// free(head);
 			head = nullptr;
 		}
 		size--;

@@ -25,6 +25,14 @@ int main(int argc, char** argv) {
 				cin >> num;
 				list->addLast(num);
 				break;
+			case 'r':
+				cin >> pos;
+				cout << "Removed: " << list->removeAt(pos) << endl; 
+				break;
+			case 'R':
+				cin >> num;
+				cout << "Removed " << list->removeAll(num) << " element/s" << endl;
+				break;
 			case 'F':
 				list->removeFirst();
 				break;
