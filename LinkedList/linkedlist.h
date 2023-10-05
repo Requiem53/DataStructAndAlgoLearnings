@@ -169,7 +169,7 @@ public:
                 ctr++;
             }else{
                 prev = curr;
-                curr = curr->next;
+            	curr = curr->next;
             }
         }
 		return ctr;

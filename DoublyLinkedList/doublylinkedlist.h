@@ -46,37 +46,58 @@ public:
 
 	int addAt(int num, int pos){
 		int journey = 0;
-		if(pos == 1){
-			addFirst(num);
-		}else if(pos == size+1){
-			add(num);
-		}else{
-			node* n = new node;
-			n->elem = num;
 
-			node* curr;
-			if(pos <= size-pos){
-				curr = head;
-				int ctr = 1;
-				while(ctr < pos-1){
-					curr = curr->next;
-					ctr++;
-					journey++;
-				}
-			}else{
-				curr = tail;
-				int ctr = size;
-				while(ctr >= pos){
-					curr = curr->prev;
-					ctr--;
-					journey++;
-				}
+		node* n = new node;
+		n->elem = num;
+		n->prev = nullptr;
+
+		node* curr;
+
+		//Adds head (and potentiall tail if only one element)
+		if(pos == 1){
+			n->next = head;
+			if (head) {
+			head->prev = n;
 			}
-			n->next = curr->next;
-			curr->next = n;	
-			n->prev = curr;
+			head = n;
+			if (!tail) {
+				tail = n;
+			}
+		}else{
+		//Checks for fastest route
+		//Unlike removeAt, this goes to the element PRECEDING pos so you insert in next
+		if(pos <= size-pos){
+			curr = head;
+			int ctr = 1;
+			while(ctr < pos-1){
+				curr = curr->next;
+				ctr++;
+				journey++;
+			}
+		}else{
+			curr = tail;
+			int ctr = size;
+			while(ctr >= pos){
+				curr = curr->prev;
+				ctr--;
+				journey++;
+			}
+		
+		}
+
+		//Assigns respective pointers to fit n
+		n->next = curr->next;
+		curr->next = n;	
+		n->prev = curr;
+
+		//Checks if n is in the end then assign to tail, otherwise, change succedding n's prev to n
+		if(pos == size+1){
+			tail = n;
+		}else{
 			n->next->prev = n;
-			size++;
+		}
+		
+		size++;
 		}
 		return journey;
 	}
@@ -85,89 +106,113 @@ public:
 		int journey = 0;
 		int removed = 0;
 
-		if(pos == 1){
-			removed = head->elem;
-			removeFirst();
-		}else if(pos == size){
-			removed = tail->elem;
-			removeLast();
+		node* curr;
+
+		//Step 1: Check for fastest route
+		if(pos <= size-pos){
+			//Already has a starting point (head). This loops enough times to reach desired pos.
+			curr = head;
+			int ctr = 1;
+			while(ctr < pos){
+				curr = curr->next;
+				ctr++;
+				journey++;
+			}
 		}else{
-			node* curr;
-			if(pos <= size-pos){
-				curr = head;
-				int ctr = 1;
-				while(ctr < pos){
-					curr = curr->next;
-					ctr++;
-					journey++;
+			//Already has a starting point (tail). This loops enough times to reach desired pos.
+			curr = tail;
+			int ctr = size;
+			while(ctr >= pos+1){
+				curr = curr->prev;
+				ctr--;
+				journey++;
+			}
+		}
+
+		removed = curr->elem;
+
+		//Actual Removing Process v
+		//Checks if the element is in the beginning
+		if(curr == head){
+			head = head->next;
+			if(head){
+				head->prev = nullptr;
+			}else{
+				//Head already null at this point
+				tail = nullptr;
+			}
+		}else{
+			//Step 2: Change next pointer of previous of curr to point to curr's next element, skipping curr
+			curr->prev->next = curr->next;
+			if(curr == tail){
+				//Changes tail position to previous position but checks if this is the only element (for freeing)
+				tail = tail->prev;
+				if(tail){
+					tail->next = nullptr;
+				}else{
+					//Tail is null at this point
+					head = nullptr;
 				}
 			}else{
-				curr = tail;
-				int ctr = size;
-				while(ctr >= pos+1){
-					curr = curr->prev;
-					ctr--;
-					journey++;
-				}
+				//Curr is not at the last position, so succeeding element's prev is changed to skip curr
+				curr->next->prev = curr->prev;
 			}
-			removed = curr->elem;
-			curr->prev->next = curr->next;
-			curr->next->prev = curr->prev;
-			// free(curr);
+			//Wonder what this does..
+			free(curr);
 			curr = nullptr;
-			if(curr)cout << "Curr is sstill not null " << endl;
-			size--;
 		}
-		
+		size--;
+
 		return removed;
 	}
 
-	int removeAll(int num){
-		int counter = 0;
-		node* curr = head;
-		if(size == 0){
-			return 0;
-		}
+	int removeAll(int num) {
+    
+	int count = 0;
+    node* curr = head;
 
-		while(curr){
-			if(curr->elem == num){
-				if(curr == head){
-					head = head->next;
-					if(head){
-						head->prev = nullptr;
-						curr = head;
+	//Maurice Taneca GOD code
+	//Same explanation as removeAt but curr iterates through whole list
+	while(curr) {
+		if(curr->elem == num) {
+			if(curr == head) {
+				head = head->next;
+				if(head) head->prev = nullptr;
+				else tail = nullptr;
+				free(curr);
+				curr = head;
+			} else {
+				curr->prev->next = curr->next;
+				if(curr == tail){
+					if(tail){
+						tail->next = nullptr;
 					}else{
-						tail = nullptr;
-						curr = nullptr;
+						head = nullptr;
 					}
-				}else{
-					curr->prev->next = curr->next;
-					if(curr == tail){
-						tail = curr->prev;
-					}
-					curr = nullptr;
-					curr = curr->next;
-					
-				}
-				size--;
-				counter++;
-			}else{
-				curr = curr->next;
+					tail->next = nullptr;
+				} 
+				else{
+					curr->next->prev = curr->prev;
+				} 
+				free(curr);
 			}
-		}
-		return counter;
-	}
-	
-	void removeFirst() {
+				size--;
+				count++;
+			} else curr = curr->next;
+    }
+    return count;
+}
+
+void removeFirst() {
 		if (size == 0) {
 			return;
 		}
 		head = head->next;
 		if (head) {	
-			// free(head->prev);
+			free(head->prev);
 			head->prev = nullptr;
 		} else {
-			// free(tail);
+			free(tail);
 			tail = nullptr;
 		}
 		size--;
@@ -179,10 +224,10 @@ public:
 		}
 		tail = tail->prev;
 		if (tail) {	
-			// free(tail->next);
+			free(tail->next);
 			tail->next = nullptr;
 		} else {
-			// free(head);
+			free(head);
 			head = nullptr;
 		}
 		size--;
