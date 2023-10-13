@@ -22,34 +22,38 @@ int main(int argc, char** argv) {
 				cin >> num;
 				list->addFirst(num);
 				break;
-//			case 't':
-//				cin >> num;
-//				list->addLast(num);
-//				break;
-//			case '@':
-//				cin >> num >> pos;
-//				list->addAt(num, pos);
-//				break;
-//			case 'r':
-//				cin >> num;
-//				cout << "Removed " << list->remove(num) << endl;
-//				break;
-//			case 'F':
-//				list->removeFirst();
-//				break;
-//			case 'T':
-//				list->removeLast();
-//				break;
-//			case 'p':
-//				list->print();
-//				break;
-//			case 'g':
-//				cin >> num;
-//				cout << "Pos " << num << " is " << list->get(num) << endl;
-//				break;
-//			case 'x':
-//				cout << "Exiting";
-//				break;
+			case 't':
+				cin >> num;
+				list->addLast(num);
+				break;
+			case '@':
+				cin >> num >> pos;
+				list->addAt(num, pos);
+				break;
+			case 'r':
+				cin >> num;
+				cout << "Removed " << list->remove(num) << endl;
+				break;
+			case 'R':
+				cin >> num;
+				cout << "Removed a total of " << list->removeAll(num) << " elements" << endl;
+				break;
+			case 'F':
+				list->removeFirst();
+				break;
+			case 'T':
+				list->removeLast();
+				break;
+			case 'p':
+				list->print();
+				break;
+			case 'g':
+				cin >> num;
+				cout << "Pos " << num << " is " << list->get(num) << endl;
+				break;
+			case 'x':
+				cout << "Exiting";
+				break;
 		}
 	} while (op != 'x');
 	return 0;

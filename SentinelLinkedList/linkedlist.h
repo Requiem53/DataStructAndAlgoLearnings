@@ -53,33 +53,11 @@ public:
 	}
 	
 	void removeFirst() {
-		if (size == 0) {
-			return;
-		}
-		head = head->next;
-		if (head) {	
-			free(head->prev);
-			head->prev = nullptr;
-		} else {
-			free(tail);
-			tail = nullptr;
-		}
-		size--;
+		removeNode(head->next);
 	}
 	
 	void removeLast() {
-		if (size == 0) {
-			return;
-		}
-		tail = tail->prev;
-		if (tail) {	
-			free(tail->next);
-			tail->next = nullptr;
-		} else {
-			free(head);
-			head = nullptr;
-		}
-		size--;
+		removeNode(tail->prev);
 	}
 	
 	void add(int num) {
@@ -108,6 +86,20 @@ public:
 			pos++;
 		}
 		return -1;
+	}
+
+	int removeAll(int num){
+		int counter = 0;
+		node* curr=head->next;
+
+		while(curr != tail){
+			if(curr->elem == num){
+				removeNode(curr);
+				counter++;
+			}
+			curr = curr->next;
+		}
+		return counter;
 	}
 	
 	void addAt(int num, int pos) {

@@ -5,4 +5,6 @@ class List {
 	virtual int remove(int num) = 0;
 	virtual void print() = 0;
 //	virtual void foo() = 0;
+
+	virtual int removeAll(int num) = 0;
 };
