@@ -9,4 +9,5 @@ class List {
 	virtual int removeAt(int pos) = 0;
 	virtual int removeAll(int num) = 0;
 	virtual int addAt(int num, int pos) = 0;
+	virtual int retain(int num) = 0;
 };

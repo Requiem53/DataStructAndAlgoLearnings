@@ -1,6 +1,7 @@
 #include "list.h"
 #include <iostream>
 #include "node.h"
+#include <cmath>
 using namespace std;
 
 class DoublyLinkedList : public List {
@@ -109,7 +110,7 @@ public:
 		node* curr;
 
 		//Step 1: Check for fastest route
-		if(pos <= size-pos){
+		if(pos <= size-pos || pos == ceil(size/2.0)){
 			//Already has a starting point (head). This loops enough times to reach desired pos.
 			curr = head;
 			int ctr = 1;
@@ -166,6 +167,49 @@ public:
 		return removed;
 	}
 
+	int retain(int num){
+    int count = 0;
+    node* curr = head;
+
+	//Maurice Taneca GOD code
+	//Same explanation as removeAt but curr iterates through whole list
+	while(curr) {
+		if(curr->elem < num) {
+			if(curr == head) {
+                
+				head = head->next;
+				if(head){
+                head->prev = NULL;
+                } 
+				else {
+                tail = NULL;
+                }
+                free(curr);
+				curr = head;
+			} else {
+				curr->prev->next = curr->next;
+				if(curr == tail){
+					if(tail){
+						tail->next = NULL;
+					}else{
+						head = NULL;
+					}
+					tail->next = NULL;
+				} 
+				else{
+					curr->next->prev = curr->prev;
+				} 
+				free(curr);
+			}
+				size--;
+				count++;
+			} else{
+            curr = curr->next;
+            } 
+    }
+    return count;
+    }
+
 	int removeAll(int num) {
     
 	int count = 0;
@@ -184,6 +228,7 @@ public:
 			} else {
 				curr->prev->next = curr->next;
 				if(curr == tail){
+					tail = tail->prev;
 					if(tail){
 						tail->next = nullptr;
 					}else{

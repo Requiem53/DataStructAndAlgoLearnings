@@ -36,6 +36,10 @@ int main(int argc, char** argv) {
 			case 'F':
 				list->removeFirst();
 				break;
+			case '=':
+				cin >> num;
+				cout << "Removed " << list->retain(num) << " element/s" << endl;
+				break;
 			case 'T':
 				list->removeLast();
 				break;
