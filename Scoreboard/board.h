@@ -6,7 +6,6 @@ class Scoreboard {
 
 	public:
 	bool add(entry e) {
-		bool added = false;
 		for (int i = 0; i < size; i++) {
 			entry exist = board[i];
 			if (e.score > exist.score) {
@@ -20,7 +19,6 @@ class Scoreboard {
 				if (size < 5) {
 					size++;
 				}
-				added = true;
 				return true;
 			}
 		}
@@ -38,8 +36,8 @@ class Scoreboard {
         int counter = 0;
         for(int i = size-1; i >= 0; i--){
             if(college.compare(board[i].college) == 0){
-                for(int j = i; j < 5; j++){
-                    if(j < 4){
+                for(int j = i; j < size; j++){
+                    if(j < size-1){
                         board[j] = board[j+1];
                     }
                 }
