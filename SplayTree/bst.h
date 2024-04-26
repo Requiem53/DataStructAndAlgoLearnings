@@ -19,7 +19,6 @@ class BST {
             
         if(noGrandparent){
             (leftOfParent) ? tree->zigright(n) : tree->zigleft(n);
-            return splayHelper(n);
         }else{
             bool leftOfGrand = (n->parent == n->parent->parent->left);
             if(leftOfParent && leftOfGrand){
